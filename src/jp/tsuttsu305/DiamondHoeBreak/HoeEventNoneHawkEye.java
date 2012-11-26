@@ -34,13 +34,13 @@ public class HoeEventNoneHawkEye implements Listener{
 							if(dbrk.wgs == true){
 								//エリアフラグ判定
 								if (dbrk.wg().canBuild(player, event.getClickedBlock())){
-							blockBreak(event.getClickedBlock(), player);
+									blockBreak(event.getClickedBlock(), player);
 								}
 							}else{
 								blockBreak(event.getClickedBlock(), player);
 							}
 							break;
-							default:
+						default:
 							break;
 					}
 				}
@@ -63,16 +63,22 @@ public class HoeEventNoneHawkEye implements Listener{
 						if(dbrk.wgs == true){
 							//エリアフラグ判定
 							if (dbrk.wg().canBuild(player, center.getRelative(x, 0, z))){
-								center.getRelative(x, 0, z).breakNaturally();
-								short du = player.getItemInHand().getDurability();
-								player.getItemInHand().setDurability((short) (du+1));
+								//同一作物だけに発動
+								//if (center.getState() == center.getRelative(x, 0, z).getState()){
+									center.getRelative(x, 0, z).breakNaturally();
+									short du = player.getItemInHand().getDurability();
+									player.getItemInHand().setDurability((short) (du+1));
+								//}
 							}else{
 
 							}
 						}else{
-							center.getRelative(x, 0, z).breakNaturally();
-							short du = player.getItemInHand().getDurability();
-							player.getItemInHand().setDurability((short) (du+1));
+							//同一作物だけに発動
+							//if (center.getState()== center.getRelative(x, 0, z).getState()){
+								center.getRelative(x, 0, z).breakNaturally();
+								short du = player.getItemInHand().getDurability();
+								player.getItemInHand().setDurability((short) (du+1));
+							//}
 						}
 						break;
 					default:

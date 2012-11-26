@@ -26,18 +26,18 @@ public class DiamondHoeBreak extends JavaPlugin {
 		}
 
 		//HawkEyeチェック
-				if (getServer().getPluginManager().isPluginEnabled("HawkEye")){
-					//HawkEye Flag
-					hawkeyeFlag = true;
-					logger.info("DiamondHoeBreak hooked to Hawkeye");
-				}else{
-					hawkeyeFlag = false;
-				}
-				if(hawkeyeFlag){
-					getServer().getPluginManager().registerEvents(new HoeEvent(this), this);
-				}else{
-					getServer().getPluginManager().registerEvents(new HoeEventNoneHawkEye(this), this);
-				}
+		if (getServer().getPluginManager().isPluginEnabled("HawkEye")){
+			//HawkEye Flag
+			hawkeyeFlag = true;
+			logger.info("DiamondHoeBreak hooked to Hawkeye");
+		}else{
+			hawkeyeFlag = false;
+		}
+		if(hawkeyeFlag){
+			getServer().getPluginManager().registerEvents(new HoeEvent(this), this);
+		}else{
+			getServer().getPluginManager().registerEvents(new HoeEventNoneHawkEye(this), this);
+		}
 	}
 
 	//WorldGuard使用時

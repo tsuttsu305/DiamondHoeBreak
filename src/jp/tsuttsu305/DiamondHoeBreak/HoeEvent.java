@@ -38,7 +38,7 @@ public class HoeEvent implements Listener{
 							if(dbrk.wgs == true){
 								//エリアフラグ判定
 								if (dbrk.wg().canBuild(player, event.getClickedBlock())){
-							blockBreak(event.getClickedBlock(), player);
+									blockBreak(event.getClickedBlock(), player);
 								}
 							}else{
 								blockBreak(event.getClickedBlock(), player);
@@ -67,20 +67,27 @@ public class HoeEvent implements Listener{
 						if(dbrk.wgs == true){
 							//エリアフラグ判定
 							if (dbrk.wg().canBuild(player, center.getRelative(x, 0, z))){
+								//同一作物だけに発動
+								//if (center.getState() == center.getRelative(x, 0, z).getState()){
+									//HawkEye用にBlockStateを保存
+									HawkEyeAPI.addEntry(dbrk, new BlockEntry(player, DataType.BLOCK_BREAK, center.getRelative(x, 0, z)));
+									center.getRelative(x, 0, z).breakNaturally();
+									short du = player.getItemInHand().getDurability();
+									player.getItemInHand().setDurability((short) (du+1));
+								//}
+							}else{
+
+							}
+						}else{
+							//同一作物だけに発動
+							//if (center.getState() == center.getRelative(x, 0, z).getState()){
 								//HawkEye用にBlockStateを保存
 								HawkEyeAPI.addEntry(dbrk, new BlockEntry(player, DataType.BLOCK_BREAK, center.getRelative(x, 0, z)));
 								center.getRelative(x, 0, z).breakNaturally();
 								short du = player.getItemInHand().getDurability();
 								player.getItemInHand().setDurability((short) (du+1));
-							}else{
+							//}
 
-							}
-						}else{
-							//HawkEye用にBlockStateを保存
-							HawkEyeAPI.addEntry(dbrk, new BlockEntry(player, DataType.BLOCK_BREAK, center.getRelative(x, 0, z)));
-							center.getRelative(x, 0, z).breakNaturally();
-							short du = player.getItemInHand().getDurability();
-							player.getItemInHand().setDurability((short) (du+1));
 						}
 						break;
 					default:
