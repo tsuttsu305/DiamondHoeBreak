@@ -2,4 +2,4 @@ name: DiamondHoeBreak
 author: tsuttsu305
 main: jp.tsuttsu305.DiamondHoeBreak.DiamondHoeBreak
 depend: [WorldGuard, HawkEye]
-version: 1.25
+version: 1.50
