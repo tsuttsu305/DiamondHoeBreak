@@ -36,7 +36,7 @@ public class DiamondHoeBreak extends JavaPlugin {
 		if(hawkeyeFlag){
 			getServer().getPluginManager().registerEvents(new HoeEvent(this), this);
 		}else{
-			getServer().getPluginManager().registerEvents(new HoeEventNoneHawkEye(this), this);
+			getServer().getPluginManager().disablePlugin(this);
 		}
 	}
 
