@@ -1,4 +1,4 @@
-package jp.tsuttsu305.DiamondHoeBreak;
+package jp.mydns.tundere.DiamondHoeBreak;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -8,10 +8,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class HoeEventNoneHawkEye implements Listener{
+import uk.co.oliwali.HawkEye.DataType;
+import uk.co.oliwali.HawkEye.entry.BlockEntry;
+import uk.co.oliwali.HawkEye.util.HawkEyeAPI;
+
+public class HoeEvent implements Listener{
 	private DiamondHoeBreak dbrk = null;
 
-	public HoeEventNoneHawkEye(DiamondHoeBreak dbrk) {
+	public HoeEvent(DiamondHoeBreak dbrk) {
 		this.dbrk = dbrk;
 	}
 
@@ -65,6 +69,8 @@ public class HoeEventNoneHawkEye implements Listener{
 							if (dbrk.wg().canBuild(player, center.getRelative(x, 0, z))){
 								//同一作物だけに発動
 								//if (center.getState() == center.getRelative(x, 0, z).getState()){
+									//HawkEye用にBlockStateを保存
+									HawkEyeAPI.addEntry(dbrk, new BlockEntry(player, DataType.BLOCK_BREAK, center.getRelative(x, 0, z)));
 									center.getRelative(x, 0, z).breakNaturally();
 									short du = player.getItemInHand().getDurability();
 									player.getItemInHand().setDurability((short) (du+1));
@@ -74,11 +80,14 @@ public class HoeEventNoneHawkEye implements Listener{
 							}
 						}else{
 							//同一作物だけに発動
-							//if (center.getState()== center.getRelative(x, 0, z).getState()){
+							//if (center.getState() == center.getRelative(x, 0, z).getState()){
+								//HawkEye用にBlockStateを保存
+								HawkEyeAPI.addEntry(dbrk, new BlockEntry(player, DataType.BLOCK_BREAK, center.getRelative(x, 0, z)));
 								center.getRelative(x, 0, z).breakNaturally();
 								short du = player.getItemInHand().getDurability();
 								player.getItemInHand().setDurability((short) (du+1));
 							//}
+
 						}
 						break;
 					default:

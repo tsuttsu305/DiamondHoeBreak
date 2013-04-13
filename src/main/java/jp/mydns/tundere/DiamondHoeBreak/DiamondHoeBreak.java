@@ -1,4 +1,4 @@
-package jp.tsuttsu305.DiamondHoeBreak;
+package jp.mydns.tundere.DiamondHoeBreak;
 
 import java.util.logging.Logger;
 
