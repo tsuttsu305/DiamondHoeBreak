@@ -1,6 +1,5 @@
 /bin
 *.class
-/DiamondHoeBreak-1.0.jar
 /target
 /.settings
 /.classpath

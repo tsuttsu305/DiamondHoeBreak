@@ -8,50 +8,43 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class DiamondHoeBreak extends JavaPlugin {
-	public static DiamondHoeBreak plugin;
-	Logger logger = Logger.getLogger("Minecraft");
-	public boolean wgs = false;
-	public boolean hawkeyeFlag = false;
+    public static DiamondHoeBreak plugin;
+    Logger logger = Logger.getLogger("Minecraft");
+    
+    @Override
+    public void onEnable(){
+        
+        //WorldGuardチェック
+        if (getServer().getPluginManager().isPluginEnabled("WorldGuard")){
+            logger.info("DiamondHoeBreak hooked to WorldGuard");
+        }else{
+            getServer().getPluginManager().disablePlugin(this);
+        }
 
-	public void onEnable(){
-		getServer().getPluginManager().registerEvents(new HoeEvent(this), this);
+        //HawkEyeチェック
+        if (getServer().getPluginManager().isPluginEnabled("HawkEye")){
+            logger.info("DiamondHoeBreak hooked to Hawkeye");
+            getServer().getPluginManager().registerEvents(new HoeEvent(this), this);
+        }else{
+            getServer().getPluginManager().disablePlugin(this);
+        }
 
-		//WorldGuardチェック
-		if (getServer().getPluginManager().isPluginEnabled("WorldGuard")){
-			//WorldGuard使用フラグ
-			wgs = true;
-			logger.info("DiamondHoeBreak hooked to WorldGuard");
-		}else{
-			wgs = false;
-		}
+    }
 
-		//HawkEyeチェック
-		if (getServer().getPluginManager().isPluginEnabled("HawkEye")){
-			//HawkEye Flag
-			hawkeyeFlag = true;
-			logger.info("DiamondHoeBreak hooked to Hawkeye");
-		}else{
-			hawkeyeFlag = false;
-		}
-		if(hawkeyeFlag){
-			getServer().getPluginManager().registerEvents(new HoeEvent(this), this);
-		}else{
-			getServer().getPluginManager().disablePlugin(this);
-		}
-	}
+    //WorldGuard使用時
+    private WorldGuardPlugin getWorldGuard() {
+        Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+        // WorldGuard may not be loaded
+        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+            getServer().getPluginManager().disablePlugin(this);
+            return null; // Maybe you want throw an exception instead
+        }
+        return (WorldGuardPlugin) plugin;
+    }
+    
+    public WorldGuardPlugin wg(){
+        return getWorldGuard();
 
-	//WorldGuard使用時
-	private WorldGuardPlugin getWorldGuard() {
-		Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
-		// WorldGuard may not be loaded
-		if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
-			return null; // Maybe you want throw an exception instead
-		}
-		return (WorldGuardPlugin) plugin;
-	}
-	public WorldGuardPlugin wg(){
-		return getWorldGuard();
-
-	}
+    }
 
 }

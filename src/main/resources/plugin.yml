@@ -1,5 +1,5 @@
 name: DiamondHoeBreak
 author: tsuttsu305
-main: jp.tsuttsu305.DiamondHoeBreak.DiamondHoeBreak
+main: jp.mydns.tundere.DiamondHoeBreak.DiamondHoeBreak
 depend: [WorldGuard, HawkEye]
-version: 1.50
+version: 1.0.0
