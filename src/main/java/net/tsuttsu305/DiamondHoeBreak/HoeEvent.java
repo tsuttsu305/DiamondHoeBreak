@@ -1,5 +1,8 @@
 package net.tsuttsu305.DiamondHoeBreak;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -7,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import uk.co.oliwali.HawkEye.DataType;
 import uk.co.oliwali.HawkEye.entry.BlockEntry;
@@ -57,6 +61,8 @@ public class HoeEvent implements Listener{
      * @param player Player
      */
     public void blockBreak(Block center, Player player){
+        List<HawkEyeData> data = new ArrayList<>();
+        
         for (int x = -3;x<=3;x++){
             for (int z = -3;z<=3;z++){
                 switch(center.getRelative(x, 0, z).getType()){
@@ -68,8 +74,9 @@ public class HoeEvent implements Listener{
                             if (dbrk.wg().canBuild(player, center.getRelative(x, 0, z))){
                                 //同一作物だけに発動
                                 //HawkEye用にBlockStateを保存
-                                HawkINSERT h = new HawkINSERT(dbrk, new BlockEntry(player, DataType.BLOCK_BREAK, center.getRelative(x, 0, z)));
-                                h.start();
+                                data.add(new HawkEyeData(dbrk, new BlockEntry(player, DataType.BLOCK_BREAK, center.getRelative(x, 0, z))));
+                                
+                                
                                 center.getRelative(x, 0, z).breakNaturally();
                                 short du = player.getItemInHand().getDurability();
                                 player.getItemInHand().setDurability((short) (du+1));
@@ -84,20 +91,42 @@ public class HoeEvent implements Listener{
                 }
             }
         }
+        
+        HawkINSERT in = new HawkINSERT(data);
+        in.start();
     }
 
 }
 
-class HawkINSERT extends Thread{
-    DiamondHoeBreak plugin;
-    BlockEntry entry;
-    
-    public HawkINSERT(DiamondHoeBreak plugin, BlockEntry entry) {
+class HawkEyeData{
+
+    private JavaPlugin plugin;
+    private BlockEntry entry;
+    public HawkEyeData(JavaPlugin plugin, BlockEntry entry) {
         this.plugin = plugin;
         this.entry = entry;
     }
+    
+    public JavaPlugin getPlugin() {
+        return plugin;
+    }
+    public BlockEntry getEntry() {
+        return entry;
+    }
+}
+
+class HawkINSERT extends Thread{
+    List<HawkEyeData> data;
+    
+    
+    public HawkINSERT(List<HawkEyeData> data) {
+        this.data = data;
+    }
     @Override
     public void run() {
-        HawkEyeAPI.addEntry(plugin, entry);
+        for (HawkEyeData d : data) {
+            HawkEyeAPI.addEntry(d.getPlugin(), d.getEntry());
+        }
+
     }
 }
